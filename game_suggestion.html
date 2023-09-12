@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <a href="main_page.html">Home page</a>
+    <h1>Suggest A Game!!</h1>
+    <p>Suggest a game to add to our renting service</p>
+</head>
+<body>
+    <form>
+        <input type="text" id="game_name" name="game_name" placeholder="Enter the game name" autocomplete="additional-name">
+        <fieldset>
+            <legend>Console</legend>
+            <input type="checkbox" id="ps4" name="ps4" value="ps4">
+            <label for="ps4">PS4</label><br>
+            <input type="checkbox" id="ps5" name="ps5" value="ps5">
+            <label for="ps5">PS5</label><br>
+            <input type="checkbox" id="xbox" name="xbox" value="xbox">
+            <label for="xbox">Xbox Series</label><br>
+            <input type="checkbox" id="switch" name="switch" value="switch">
+            <label for="switch">Nintendo Switch</label><br>
+
+        </fieldset>
+        <label>Choose the game genre</label>
+        <input list="genra" id="Game_genere" name="Game_genere"/>
+        <datalist id="genra">
+            <option value="Action"> </option>
+            <option value="Adventure"></option>
+            <option value="RPG"></option>
+            <option value="Strategy"></option>
+            <option value="Sports"></option>
+            <option value="Puzzle"></option>
+            <option value="Racing"></option>
+            <option value="Fighting"></option>
+            <option value="Shooter"></option>
+            <option value="Platformer"></option>
+            <option value="Survival"></option>
+            <option value="Horror"></option>
+            <option value="MMO"></option>
+            <option value="Sandbox"></option>
+            <option value="Party"></option>
+            <option value="Rhythm"></option>
+            <option value="Stealth"></option>
+            <option value="Visual Novel"></option>
+            <option value="Battle Royale"></option>
+            <option value="Roguelite"></option>
+        </datalist>
+        <label for="game_image">Upload game image:</label>
+        <input type="file" id="game_image" name="game_image">
+        <label for="release_date">Release Date:</label>
+        <input type="month" id="release_date" name="release_date" max="2100"><br>
+        <input type="submit" value="Submit" >
+        <input type="reset" value="Reset">
+        
+
+
+
+    </form>
+    
+</body>
+</html>

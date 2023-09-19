@@ -38,6 +38,13 @@ tr:hover {
 tr:hover td {
     background-color: cyan;
 }
+table tbody tr:nth-child(even) {
+    background-color: purple; 
+  }
+  
+  table tbody tr:nth-child(odd) {
+    background-color: lightblue; 
+  }
 
 nav li{
     display: inline;

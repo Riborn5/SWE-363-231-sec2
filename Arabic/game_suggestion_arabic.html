@@ -1,8 +1,8 @@
-<html lang="en">
+<html lang="ar">
 <header>
     <nav>
-        <a href="main_page.html">Home page</a>
-        <a href="/Arabic/game_suggestion_arabic.html">العربية</a>
+        <a href="main_page_arabic.html">الصفحةالرئيسية</a>
+        <a href="/game_suggestion.html">English</a>
     </nav>
 </header>
 
@@ -10,14 +10,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <h1>Suggest A Game!!</h1>
-    <p>Suggest a game to add to our renting service</p>
+    <h1>اقترح لعبة!!</h1>
+    <p>اقترح لعبة لإضافتها</p>
 </head>
 <body>
     <form action="Thank_you_for_suggestion.html" method="get" autocomplete="on">
-        <input type="text" id="game_name" name="game_name" placeholder="Enter the game name" autocomplete="additional-name">
+        <input type="text" id="game_name" name="game_name" placeholder="ادخل اسم اللعبة" autocomplete="additional-name">
         <fieldset>
-            <legend>Console</legend>
+            <legend>المنصة</legend>
             <input type="checkbox" id="ps4" name="ps4" value="ps4">
             <label for="ps4">PS4</label><br>
             <input type="checkbox" id="ps5" name="ps5" value="ps5">
@@ -28,7 +28,7 @@
             <label for="switch">Nintendo Switch</label><br>
 
         </fieldset>
-        <label>Choose the game genre</label>
+        <label>اختر تصنيف اللعبة</label>
         <input list="genra" id="Game_genere" name="Game_genere"/>
         <datalist id="genra">
             <option value="Action"> </option>
@@ -52,12 +52,12 @@
             <option value="Battle Royale"></option>
             <option value="Roguelite"></option>
         </datalist>
-        <label for="game_image">Upload game image:</label>
+        <label for="game_image">ارفق صورة للعبة:</label>
         <input type="file" id="game_image" name="game_image">
-        <label for="release_date">Release Date:</label>
+        <label for="release_date">تاريخ الاصدار:</label>
         <input type="month" id="release_date" name="release_date" max="2100"><br>
-        <input type="button" value="Submit">
-        <input type="reset" value="Reset">
+        <input type="button" value="إرسال">
+        <input type="reset" value="إعادة">
         
 
 

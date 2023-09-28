@@ -1,5 +1,7 @@
 
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 nav ul{
  padding-left: 0px;
 }
@@ -10,7 +12,7 @@ a{
 }
 
 body{
-    background-color: black;
+    background-color: rgb(81, 101, 121);
     font-family: sans-serif,Arial, Helvetica, sans-serif;
      color: orangered;
 }
@@ -19,3 +21,38 @@ header{
     color: blue
 
 }
+
+a:hover{
+    color: blue;
+}
+
+
+
+.nav_elements {
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+}
+
+
+#hamb:hover + .nav_elements{
+    visibility: visible;
+    transition: visibility 5s;
+   
+}
+
+.hidden {
+    display: none;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  body.loaded .content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+

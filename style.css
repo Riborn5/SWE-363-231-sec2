@@ -26,6 +26,7 @@ a:hover{
 
 
 .nav_elements {
+    align-items: center;
     display: flex;
     flex-direction: column;
     visibility: hidden;

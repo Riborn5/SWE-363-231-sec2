@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <a href="main_page.html">Home page</a>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Numbers Board Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .cell {
+      border: 1px solid #ccc;
+      padding: 20px;
+      font-size: 24px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .empty {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div id="board"></div>
+  <button onclick="shuffle()">Shuffle</button>
+
+  <script>
+    const board = document.getElementById('board');
+    const numbers = Array.from({length: 11}, (_, index) => index + 1);
+
+    function createBoard() {
+      const shuffledNumbers = shuffleArray(numbers);
+      for (const number of shuffledNumbers) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.textContent = number;
+        cell.addEventListener('click', () => move(cell));
+        board.appendChild(cell);
+      }
+      // Add an empty cell
+      const emptyCell = document.createElement('div');
+      emptyCell.className = 'cell empty';
+      board.appendChild(emptyCell);
+    }
+
+    function shuffleArray(array) {
+      const shuffledArray = array.slice();
+      for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      }
+      return shuffledArray;
+    }
+
+    function move(clickedCell) {
+      const emptyCell = document.querySelector('.empty');
+
+      if (isAdjacent(emptyCell, clickedCell)) {
+        // Swap text content and classes
+        const tempText = emptyCell.textContent;
+        emptyCell.textContent = clickedCell.textContent;
+        clickedCell.textContent = tempText;
+
+        emptyCell.classList.remove('empty');
+        clickedCell.classList.add('empty');
+      }
+
+      if (isWin()) {
+        alert('You win!');
+      }
+    }
+    function isAdjacent(cell1, cell2) {
+        if (!cell1 || !cell2) {
+          return false;
+        }
+      
+        const index1 = Array.from(cell1.parentElement.children).indexOf(cell1);
+        const index2 = Array.from(cell2.parentElement.children).indexOf(cell2);
+      
+        const rowDiff = Math.abs(Math.floor(index1 / 4) - Math.floor(index2 / 4));
+        const colDiff = Math.abs((index1 % 4) - (index2 % 4));
+      
+        if (index1 === 15) {
+          // Allow moving into the first empty cell
+          return (rowDiff === 0 && colDiff === 1);
+        } else if (index2 === 15) {
+          // Prevent moving the first empty cell into other cells
+          return false;
+        }
+      
+        return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
+      }
+      
+
+    function isWin() {
+      const cells = document.querySelectorAll('.cell');
+      for (let i = 0; i < cells.length - 1; i++) {
+        if (parseInt(cells[i].textContent) !== i + 1) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function shuffle() {
+      board.innerHTML = '';
+      createBoard();
+    }
+
+    document.addEventListener('DOMContentLoaded', createBoard);
+  </script>
+</body>
+</html>

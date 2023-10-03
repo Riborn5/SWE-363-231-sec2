@@ -2,17 +2,19 @@
 <html lang="en">
 
 <head>
+    <a href="main_page.html">Home page</a>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body{
+        body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
         }
+
         .cell {
             font-family: sans-serif;
             font-size: larger;
@@ -27,7 +29,7 @@
             align-items: center;
         }
 
-        .cell:hover{
+        .cell:hover {
             background-color: blanchedalmond;
         }
 
@@ -37,9 +39,10 @@
     </style>
 </head>
 
+
 <body>
     <h1 id="turn">
-        Now it's is X turn
+        Now it's is <span>X</span> turn
     </h1>
     <!-- Board -->
     <div class="board">
@@ -58,41 +61,112 @@
             <div class="cell"></div>
             <div class="cell"></div>
         </div>
-        <script>
-            // controll turns 
-            let turn = 0
-            let letter = "X"
+    </div>
+    <button id="play-again" style="display:inline;">restart</button>
+    <script>
+        // decided which turn is it
+        let turn = "X";
+        let gameEnded = false;
 
-            // add letters
-            document.querySelector(".board").addEventListener("click", play_turn)
-            
-            function play_turn(e) {
+        // 2D array to represent the board
+        const boardState = [
+            ['', '', ''],
+            ['', '', ''],
+            ['', '', '']
+        ];
 
-                //get target
-                cell = e.target
+        // when we click on a cell add the letter 
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => cell.addEventListener("click", cellClicked));
 
-                //add the letter
-                textElement = document.createTextNode(`${letter}`)
-                cell.appendChild(textElement)
-
-                //change turn
-                turn = (turn + 1) % 2;
-                console.log(turn)
-
-                //change letter
-                if (turn == 0) {
-                    letter = "X"
-                } else {
-                    letter = "O"
+        function cellClicked(event) {
+            if (gameEnded) return;
+        
+            const cell = event.target;
+            const rowIndex = Array.from(cell.parentElement.parentElement.children).indexOf(cell.parentElement);
+            const cellIndex = Array.from(cell.parentElement.children).indexOf(cell);
+        
+            if (boardState[rowIndex][cellIndex] === '') {
+                boardState[rowIndex][cellIndex] = turn;
+                cell.innerText = turn;
+        
+                if (checkWin(turn)) {
+                    document.getElementById('turn').innerText = `Player ${turn} wins!`;
+                    gameEnded = true;
+                    return;
+                } else if (checkDraw()) {
+                    document.getElementById('turn').innerText = "It's a draw!";
+                    gameEnded = true;
+                    return;
                 }
+        
+                turn = turn === "X" ? "O" : "X";
+                document.getElementById('turn').innerText = `Now it's ${turn}'s turn`;
+            }
+        }
+        
+        
 
-                //change title
-                document.getElementById("turn").innerText = `Now it's ${letter} turn`
-
+        function checkWin(player) {
+            // Check rows
+            for (let i = 0; i < 3; i++) {
+                if (boardState[i][0] === player && boardState[i][1] === player && boardState[i][2] === player) {
+                    return true;
+                }
             }
 
-        </script>
-    </div>
+            // Check columns
+            for (let i = 0; i < 3; i++) {
+                if (boardState[0][i] === player && boardState[1][i] === player && boardState[2][i] === player) {
+                    return true;
+                }
+            }
+
+            // Check diagonals
+            if (boardState[0][0] === player && boardState[1][1] === player && boardState[2][2] === player) {
+                return true;
+            }
+
+            if (boardState[0][2] === player && boardState[1][1] === player && boardState[2][0] === player) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function checkDraw() {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (boardState[i][j] === '') {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        const playAgainButton = document.getElementById('play-again');
+        playAgainButton.addEventListener('click', resetGame);
+
+        function resetGame() {
+            // Clear the board
+            cells.forEach(cell => cell.innerText = '');
+
+            // Clear the board state
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    boardState[i][j] = '';
+                }
+            }
+
+            // Reset the turn and game state
+            turn = 'X';
+            gameEnded = false;
+            document.getElementById('turn').innerText = `Now it's ${turn}'s turn`;
+
+            // Hide the "Play Again" button
+            playAgainButton.style.display = 'inline';
+        }
+    </script>
 </body>
 
 </html>

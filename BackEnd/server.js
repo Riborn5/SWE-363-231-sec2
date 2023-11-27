@@ -12,10 +12,15 @@ app.listen(port, () => {
 
 const logger = require('./logger');
 const home = require('./home');
+const suggest = require('./suggest');
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use(logger);
 
-app.use(express.static('./pages'));
+//app.use(express.static('./pages'));
 
+app.use('/', home);
+app.use('/suggest', suggest);
 
   

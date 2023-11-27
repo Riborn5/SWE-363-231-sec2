@@ -1,0 +1,219 @@
+<html lang="en">
+<header>
+    <nav>
+        <a href="main_page.html">Home page</a>
+        <a href="/Arabic/game_suggestion_arabic.html">العربية</a>
+    </nav>
+</header>
+
+<head>
+    <!-- <link href="./dist/output.css" rel="stylesheet"> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <h1>Suggest A Game!!</h1>
+    <p>Suggest a game to add to our renting service</p>
+</head>
+<body>
+    <form action="Thank_you_for_suggestion.html" method="POST" autocomplete="on">
+        <input type="text" id="game_name" name="game_name" placeholder="Enter the game name" autocomplete="additional-name">
+        <fieldset>
+            <legend>Console</legend>
+            <input type="checkbox" id="ps4" name="ps4" value="ps4">
+            <label for="ps4">PS4</label><br>
+            <input type="checkbox" id="ps5" name="ps5" value="ps5">
+            <label for="ps5">PS5</label><br>
+            <input type="checkbox" id="xbox" name="xbox" value="xbox">
+            <label for="xbox">Xbox Series</label><br>
+            <input type="checkbox" id="switch" name="switch" value="switch">
+            <label for="switch">Nintendo Switch</label><br>
+
+        </fieldset>
+        <label>Choose the game genre</label>
+        <input list="genra" id="Game_genere" name="Game_genere"/>
+        <datalist id="genra">
+            <option value="Action"> </option>
+            <option value="Adventure"></option>
+            <option value="RPG"></option>
+            <option value="Strategy"></option>
+            <option value="Sports"></option>
+            <option value="Puzzle"></option>
+            <option value="Racing"></option>
+            <option value="Fighting"></option>
+            <option value="Shooter"></option>
+            <option value="Platformer"></option>
+            <option value="Survival"></option>
+            <option value="Horror"></option>
+            <option value="MMO"></option>
+            <option value="Sandbox"></option>
+            <option value="Party"></option>
+            <option value="Rhythm"></option>
+            <option value="Stealth"></option>
+            <option value="Visual Novel"></option>
+            <option value="Battle Royale"></option>
+            <option value="Roguelite"></option>
+        </datalist>
+        <label for="game_image">Upload game image:</label>
+        <input type="file" id="game_image" name="game_image">
+        <label for="release_date">Release Date:</label>
+        <input type="month" id="release_date" name="release_date" max="2100"><br>
+        <input type="button" value="Submit">
+        <input type="reset" value="Reset">
+        
+
+
+
+    </form>
+    <div id="info">
+        <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - simple text from json fonts
+    </div>
+
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@<version>/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@<version>/examples/jsm/"
+          }
+        }
+      </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        
+        const controls = new OrbitControls( camera, renderer.domElement );
+        const loader = new GLTFLoader();
+
+        let camera, scene, renderer;
+
+        init();
+
+        function init( ) {
+
+            camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+            camera.position.set( 0, - 400, 600 );
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color( 0xf0f0f0 );
+
+            const loader = new FontLoader();
+            loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+                const color = new THREE.Color( 0x006699 );
+
+                const matDark = new THREE.MeshBasicMaterial( {
+                    color: color,
+                    side: THREE.DoubleSide
+                } );
+
+                const matLite = new THREE.MeshBasicMaterial( {
+                    color: color,
+                    transparent: true,
+                    opacity: 0.4,
+                    side: THREE.DoubleSide
+                } );
+
+                const message = '   Three.js\nStroke text.';
+
+                const shapes = font.generateShapes( message, 100 );
+
+                const geometry = new THREE.ShapeGeometry( shapes );
+
+                geometry.computeBoundingBox();
+
+                const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+
+                geometry.translate( xMid, 0, 0 );
+
+                // make shape ( N.B. edge view not visible )
+
+                const text = new THREE.Mesh( geometry, matLite );
+                text.position.z = - 150;
+                scene.add( text );
+
+                // make line shape ( N.B. edge view remains visible )
+
+                const holeShapes = [];
+
+                for ( let i = 0; i < shapes.length; i ++ ) {
+
+                    const shape = shapes[ i ];
+
+                    if ( shape.holes && shape.holes.length > 0 ) {
+
+                        for ( let j = 0; j < shape.holes.length; j ++ ) {
+
+                            const hole = shape.holes[ j ];
+                            holeShapes.push( hole );
+
+                        }
+
+                    }
+
+                }
+
+                shapes.push.apply( shapes, holeShapes );
+
+                const style = SVGLoader.getStrokeStyle( 5, color.getStyle() );
+
+                const strokeText = new THREE.Group();
+
+                for ( let i = 0; i < shapes.length; i ++ ) {
+
+                    const shape = shapes[ i ];
+
+                    const points = shape.getPoints();
+
+                    const geometry = SVGLoader.pointsToStroke( points, style );
+
+                    geometry.translate( xMid, 0, 0 );
+
+                    const strokeMesh = new THREE.Mesh( geometry, matDark );
+                    strokeText.add( strokeMesh );
+
+                }
+
+                scene.add( strokeText );
+
+                render();
+
+            } ); //end load function
+
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setPixelRatio( window.devicePixelRatio );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            const controls = new OrbitControls( camera, renderer.domElement );
+            controls.target.set( 0, 0, 0 );
+            controls.update();
+
+            controls.addEventListener( 'change', render );
+
+            window.addEventListener( 'resize', onWindowResize );
+
+        } // end init
+
+        function onWindowResize() {
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize( window.innerWidth, window.innerHeight );
+
+            render();
+
+        }
+
+        function render() {
+
+            renderer.render( scene, camera );
+
+        }
+
+    </script>
+
+    
+</body>
+</html>
